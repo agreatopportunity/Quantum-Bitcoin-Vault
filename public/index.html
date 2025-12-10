@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSV Quantum Vault</title>
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⚛️ BSV QUANTUM VAULT</h1>
+        <p class="subtitle">SHA256 Hash-Lock • Quantum-Resistant • Bitcoin SV</p>
+    </div>
+    
+    <!-- INFO BANNER -->
+    <div class="info-banner">
+        <strong>🔐 How It Works:</strong> Instead of ECDSA signatures (vulnerable to quantum computers), 
+        your funds are secured by a SHA256 hash preimage. To spend, you reveal the secret that produces the hash.
+    </div>
+
+    <!-- CREATE VAULT SECTION -->
+    <div class="card">
+        <h2><span class="icon">◆</span> Generate Quantum Vault</h2>
+        <p class="description">
+            Create a new P2SH address secured by a SHA256 hash-lock. 
+            The secret is your ONLY way to access funds - store it safely!
+        </p>
+        <button id="createBtn" onclick="createVault()">
+            <span class="btn-icon">⚡</span> Initialize Quantum Protocol
+        </button>
+        
+        <div id="result">
+            <!-- Vault Address -->
+            <div class="field">
+                <label>VAULT ADDRESS (P2SH)</label>
+                <div class="addr" id="vaultAddress">...</div>
+                <div id="qr_address" class="qr-container"></div>
+                <button class="copy-btn" onclick="copyToClipboard('vaultAddress')">📋 Copy Address</button>
+            </div>
+            
+            <!-- Script Details -->
+            <div class="field collapsible">
+                <label onclick="toggleDetails()">📜 SCRIPT DETAILS <span class="toggle-icon">▼</span></label>
+                <div id="scriptDetails" class="details-content">
+                    <div class="detail-row">
+                        <span class="detail-label">Locking Script (ASM):</span>
+                        <span class="detail-value" id="lockingScriptASM">...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Redeem Script (Hex):</span>
+                        <span class="detail-value mono" id="redeemScript">...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Script Hash:</span>
+                        <span class="detail-value mono" id="scriptHash">...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Secret Hash:</span>
+                        <span class="detail-value mono" id="secretHash">...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECRET KEY - CRITICAL -->
+            <div class="field secret-field">
+                <label class="warning-label">⚠️ MASTER KEY (SECRET) - SAVE THIS!</label>
+                <div class="secret" id="vaultSecret">...</div>
+                <button class="copy-btn important" onclick="copyToClipboard('vaultSecret')">🔑 Copy Secret Key</button>
+                <p class="warning-text">
+                    This is the ONLY way to access your funds. If you lose this, your BSV is gone forever!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCESS VAULT SECTION -->
+    <div class="card">
+        <h2><span class="icon blue">◈</span> Access Vault</h2>
+        
+        <div class="field">
+            <label>Master Key (64 Hex Characters)</label>
+            <input type="text" id="sweepSecret" placeholder="Enter your vault secret..." maxlength="64">
+        </div>
+        
+        <div class="field">
+            <label>Destination Address</label>
+            <input type="text" id="recipientAddr" placeholder="BSV address (starting with 1 or 3)...">
+        </div>
+        
+        <div class="button-grid">
+            <button class="secondary" onclick="checkBalance()">
+                <span class="btn-icon">📊</span> Check Balance
+            </button>
+            <button onclick="sweepVault()">
+                <span class="btn-icon">💸</span> Sweep Funds
+            </button>
+        </div>
+        
+        <div id="statusMsg"></div>
+    </div>
+
+    <!-- TECHNICAL INFO -->
+    <div class="card info-card">
+        <h2><span class="icon purple">⚡</span> Technical Details</h2>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <span class="tech-label">Script Type</span>
+                <span class="tech-value">P2SH (Pay-to-Script-Hash)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Hash Algorithm</span>
+                <span class="tech-value">SHA256</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Secret Size</span>
+                <span class="tech-value">256 bits (32 bytes)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Locking Script</span>
+                <span class="tech-value mono">OP_SHA256 &lt;hash&gt; OP_EQUAL</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Quantum Safety</span>
+                <span class="tech-value safe">✓ Hash-based (no ECDSA)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Network</span>
+                <span class="tech-value">BSV Mainnet</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>Built for the future of Bitcoin SV</p>
+        <p class="links">
+            <a href="https://whatsonchain.com" target="_blank">WhatsOnChain Explorer</a> •
+            <a href="https://burtoncummings.io" target="_blank">BurtonCummings.io</a>
+        </p>
+    </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
