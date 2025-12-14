@@ -51,8 +51,7 @@ const CONFIG = {
     // TAAL Merchant API (for large/non-standard transactions)
     TAAL_URL: 'https://api.taal.com/api/v1/broadcast',
     TAAL_KEYS: process.env.TAAL_API_KEYS?.split(',') || [
-        'mainnet_3b1bf0f0d550275f1ba8676c1e224fc1',
-        'mainnet_7bf481e9cd46f48c44a71de1b326bea4'
+    // API_KEYS_GO_HERE, 
     ],
     
     // GorillaPool (alternative)
