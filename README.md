@@ -9,7 +9,7 @@
 ![Version](https://img.shields.io/badge/Version-4.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-## 🆕 What's New in v4.0
+## 🆕 What's New
 
 - **⏰ Time-Locked Vaults**: Lock funds until a specific date or block height
 - **🛡️ Full Winternitz Mode**: Complete on-chain signature verification with transaction binding
