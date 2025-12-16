@@ -1,7 +1,7 @@
 /**
- * BSV QUANTUM VAULT - Production Server v4.6
+ * BSV QUANTUM VAULT - Production Server 
  * 
- * COMPLETE FIX - All endpoints compatible with frontend app.js
+ * 
  * 
  * ENDPOINTS:
  * - GET  /api/health
@@ -9,14 +9,14 @@
  * - POST /api/balance
  * - POST /api/verify
  * - POST /api/generate-funding-address
- * - POST /api/check-funding              ← WAS MISSING!
+ * - POST /api/check-funding              
  * - POST /api/send-from-funding
- * - POST /api/deposit-to-vault           ← FIXED to accept vaultSecret
+ * - POST /api/deposit-to-vault           
  * - POST /api/sweep
  * - GET  /api/price
  * - GET  /api/tx/:txid
  * 
- * @version 4.6.0
+ * @version 1
  */
 
 const express = require('express');
@@ -56,8 +56,8 @@ const CONFIG = {
     WOC_BASE: 'https://api.whatsonchain.com/v1/bsv/main',
     TAAL_URL: 'https://api.taal.com/api/v1/broadcast',
     TAAL_KEYS: process.env.TAAL_API_KEYS?.split(',') || [
-        'mainnet_3b1bf0f0d550275f1ba8676c1e224fc1',
-        'mainnet_7bf481e9cd46f48c44a71de1b326bea4'
+        'mainnet_API_KEYS_HERE',
+        'mainnet_API_KEYS_HERE'
     ],
     GORILLA_URL: 'https://mapi.gorillapool.io/mapi/tx',
     FEE_RATE_STANDARD: 1,
