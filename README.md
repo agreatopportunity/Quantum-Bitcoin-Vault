@@ -1,8 +1,8 @@
 # 🔐 BSV Quantum Vault
 
-**The First Quantum-Resistant Bitcoin Vault with Front-Run Immunity Proven on Mainnet**
+**The First Quantum-Resistant Bitcoin Vault with Front Run Immunity Proven on Mainnet**
 
-> Protect your BSV from quantum computers using WOTS-16 hash-based signatures with ECDSA covenant binding. No ECDSA exposure during spend. Mathematically secure against both quantum attacks and front running.
+> Protect your BSV from quantum computers using WOTS-16 hash based signatures with ECDSA covenant binding. No ECDSA exposure during spend. Mathematically secure against both quantum attacks and front running.
 
 ![BSV](https://img.shields.io/badge/BSV-Mainnet-orange)
 ![Security](https://img.shields.io/badge/Security-Quantum%20Resistant-green)
@@ -37,11 +37,11 @@ TX: 1cd4c9f57691237ec263d8b2515a67e4d8797a99b027135f479a0a191e775a4c
 
 ## ✨ Features
 
-- 🛡️ **Quantum-Resistant Storage** — Hash-based keys, no ECDSA exposure
+- 🛡️ **Quantum-Resistant Storage** — Hash based keys, no ECDSA exposure
 - ⚡ **Quantum-Resistant Spend** — WOTS-16 signatures during withdrawal  
 - 🔒 **Front-Run Immunity** — ECDSA covenant binds signature to outputs
 - 📱 **Mobile-Friendly** — Responsive design, QR code funding
-- 🌐 **BSV Native** — Bare scripts, Genesis-compliant, mainnet ready
+- 🌐 **BSV Native** — Bare scripts, Genesis compliant, mainnet ready
 - 🔓 **Open Source** — MIT licensed, fully auditable
 
 ---
@@ -88,7 +88,7 @@ The project uses minimal dependencies:
 ### Development Mode
 
 ```bash
-# Run with auto-reload on file changes
+# Run with auto reload on file changes
 npm run dev
 
 # Run tests
@@ -132,23 +132,23 @@ BSV Quantum Vault offers three security tiers:
 |-------|-------------|-----|--------------|----------------|----------|
 | **Standard** | ~35 bytes | ~35 sats | ✅ Storage | ⚠️ Theoretical | Testing, small amounts |
 | **Enhanced** | ~45 bytes | ~45 sats | ✅ Storage | ⚠️ Theoretical | Time-locked funds |
-| **Ultimate** | ~5.7 KB | ~8,500 sats | ✅ Full | ✅ Immune | High-value, long-term |
+| **Ultimate** | ~5.7 KB | ~8,500 sats | ✅ Full | ✅ Immune | High  value, long term |
 
 ### Standard Security
 ```
 Script: OP_SHA256 <hash> OP_EQUAL
 ```
 - Simple preimage verification
-- Quantum-resistant while funds are stored
+- Quantum resistant while funds are stored
 - Lowest transaction fees
-- Theoretical front-run risk during spend (very low practical risk)
+- Theoretical front run risk during spend (very low practical risk)
 
 ### Enhanced Security  
 ```
 Script: <locktime> OP_CHECKLOCKTIMEVERIFY OP_DROP OP_SHA256 <hash> OP_EQUAL
 ```
 - Everything in Standard, plus:
-- Time-lock capability (by date or block height)
+- Time lock capability (by date or block height)
 - Perfect for: inheritance, vesting, forced HODL
 
 ### Ultimate Security (Recommended)
@@ -157,7 +157,7 @@ Script: [68× WOTS-16 verification] <pubkey> OP_CHECKSIGVERIFY OP_DROP OP_TRUE
 ```
 - **Full WOTS-16 on chain signature verification**
 - 68 signature chunks (64 message + 4 checksum nibbles)
-- ECDSA covenant binds outputs — mathematically impossible to front-run
+- ECDSA covenant binds outputs, mathematically impossible to front run
 - No ECDSA private key revealed during spend
 - **This is the tier proven on mainnet**
 
@@ -205,7 +205,7 @@ The ECDSA covenant ensures the WOTS-16 signature cannot be stolen:
 │  3. Even if attacker sees signature in mempool:             │
 │     → Cannot change outputs (signature won't verify)        │
 │     → Cannot redirect funds                                 │
-│  4. Front-running is MATHEMATICALLY IMPOSSIBLE              │
+│  4. Front running is MATHEMATICALLY IMPOSSIBLE              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -384,10 +384,10 @@ At current BSV prices, Ultimate sweep costs less than $0.10 USD.
 
 ## 🗺️ Roadmap for Devs
 
-- [x] WOTS-16 on-chain verification
+- [x] WOTS-16 on chain verification
 - [x] ECDSA covenant binding  
 - [x] Mainnet deployment & proof
-- [x] Mobile-responsive UI
+- [x] Mobile responsive UI
 - [x] QR code funding flow
 - [ ] Multi-signature quantum vaults
 - [ ] Hardware wallet integration
@@ -415,7 +415,7 @@ This software is provided "as is" without warranty of any kind. While the crypto
 
 ## 🙏 Acknowledgments
 
-- **Ralph Merkle** — Hash-based signature foundations
+- **Ralph Merkle** — Hash based signature foundations
 - **Robert Winternitz** — WOTS scheme development  
 - **BSV Community** — Maintaining unbounded Bitcoin
 - **Dean 利迪恩** — Guidance and insights
