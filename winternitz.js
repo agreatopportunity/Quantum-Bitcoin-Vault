@@ -1,18 +1,7 @@
 /**
- * BSV Quantum Vault - Production Winternitz Implementation v4.2
- * 
- * CRITICAL FIXES v4.2
- * ===================
- * 1. Fixed "Invalid operand size" - use OP_MOD/OP_DIV instead of OP_AND
- * 2. Fixed "OP_EQUALVERIFY failed" - removed stack-corrupting commitment push
- * 3. Simplified script structure - no CAT at end, just verify each chunk
- * 
- * The locking script now simply verifies each WOTS-16 signature chunk
- * without trying to re-derive the public key hash (which is redundant
- * since commitments are embedded in the script itself).
- * 
+ * BSV Quantum Vault - Production Winternitz Implementation v1 
  * @author BSV Quantum Vault
- * @version 4.2.0 - Simplified working WOTS-16
+ * @version 1 - Simplified working WOTS-16
  */
 
 const crypto = require('crypto');
@@ -72,7 +61,7 @@ function sha256(data) {
 
 function hash256(data) {
     return sha256(sha256(data));
-}
+o}
 
 function hash160(data) {
     return crypto.createHash('ripemd160').update(sha256(data)).digest();
@@ -403,16 +392,12 @@ function signWOTS16(keypair, message) {
 }
 
 // =============================================================================
-// FIXED WOTS-16 LOCKING SCRIPT v4.2
+// WOTS-16 LOCKING SCRIPT v1
 // =============================================================================
 
 /**
- * Build WOTS-16 locking script (FIXED v4.2)
+ * Build WOTS-16 locking script
  * 
- * KEY FIXES:
- * 1. Uses OP_MOD/OP_DIV instead of OP_AND (fixes "Invalid operand size")
- * 2. Does NOT push commitments for later CAT (fixes stack corruption)
- * 3. Uses OP_EQUAL on last chunk (leaves TRUE on stack for success)
  * 
  * SECURITY:
  * - Each chunk verification proves knowledge of the private scalar
