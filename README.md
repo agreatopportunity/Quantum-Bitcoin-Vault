@@ -1,6 +1,6 @@
 # 🔐 BSV Quantum Vault
 
-**The First Quantum-Resistant Bitcoin Vault with Front Run Immunity Proven on Mainnet**
+**The First Quantum Resistant Bitcoin Vault with Front Run Immunity Proven on Mainnet**
 
 > Protect your BSV from quantum computers using WOTS-16 hash based signatures with ECDSA covenant binding. No ECDSA exposure during spend. Mathematically secure against both quantum attacks and front running.
 
