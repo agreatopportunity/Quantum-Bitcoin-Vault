@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="BSV Quantum Vault - Quantum-resistant Bitcoin storage using Winternitz One-Time Signatures (WOTS-16) with covenant protection">
+    <meta name="keywords" content="BSV, Bitcoin, Quantum, Vault, WOTS, Winternitz, Cryptocurrency, Security">
+    <meta name="author" content="BSV Quantum Vault">
+    <meta name="theme-color" content="#f7931a">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="BSV Quantum Vault - Post-Quantum Bitcoin Security">
+    <meta property="og:description" content="Protect your Bitcoin from quantum computers with WOTS-16 signatures and covenant protection">
+    <meta property="og:type" content="website">
+    
+    <title>BSV Quantum Vault - Quantum-Resistant Bitcoin Storage</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">🔐</div>
+        <h1>BSV Quantum Vault</h1>
+        <p class="tagline">WOTS-16 Signatures • Covenant Protected • Mainnet Proven</p>
+        <div class="header-badges">
+            <span class="badge badge-success">✓ Quantum-Safe</span>
+            <span class="badge badge-info">✓ Front-Run Immune</span>
+            <span class="badge badge-warning">✓ BSV Native</span>
+        </div>
+    </header>
+
+    <!-- Main Security Banner -->
+    <div class="alert alert-success">
+        <div class="alert-icon">🛡️</div>
+        <div class="alert-content">
+            <strong>Quantum-Resistant Protection</strong>
+            <p>Your funds are secured by WOTS-16 hash-based signatures with ECDSA covenant binding. 
+            No ECDSA exposure during spend means immunity to both quantum attacks and front-running.</p>
+        </div>
+    </div>
+
+    <!-- Create Vault Section -->
+    <section class="card" id="createSection">
+        <h2>
+            <span class="section-icon">◆</span>
+            Create Quantum Vault
+        </h2>
+        <p class="section-desc">
+            Generate a new quantum-resistant vault protected by Winternitz One-Time Signatures.
+        </p>
+        
+        <!-- Security Level Selection -->
+        <div class="vault-options">
+            <div class="option-group">
+                <label class="option-label">🛡️ Security Level</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="securityLevel" value="standard" checked>
+                        <span class="radio-custom"></span>
+                        <span class="radio-content">
+                            <strong>Standard</strong>
+                            <small>~35 byte script • Quantum-resistant storage • Lowest fees</small>
+                        </span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="securityLevel" value="enhanced">
+                        <span class="radio-custom"></span>
+                        <span class="radio-content">
+                            <strong>Enhanced</strong>
+                            <small>Standard + time-lock capability for scheduled unlocks</small>
+                        </span>
+                    </label>
+                    <label class="radio-option recommended">
+                        <input type="radio" name="securityLevel" value="ultimate">
+                        <span class="radio-custom"></span>
+                        <span class="radio-content">
+                            <strong>Ultimate (WOTS-16 + Covenant)</strong>
+                            <small>~5.7KB script • Full quantum immunity • Front-run immune spend</small>
+                            <span class="recommended-badge">RECOMMENDED</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Time-Lock Options -->
+            <div class="option-group" id="timeLockOptions">
+                <label class="option-label checkbox-label">
+                    <input type="checkbox" id="enableTimeLock" onchange="toggleTimeLock()">
+                    <span class="checkbox-custom"></span>
+                    🔒 Enable Time-Lock
+                </label>
+                <div id="timeLockConfig" class="sub-options hidden">
+                    <div class="time-lock-type">
+                        <label class="radio-option small">
+                            <input type="radio" name="lockType" value="date" checked onchange="toggleLockTypeInput()">
+                            <span class="radio-custom"></span>
+                            <span>Lock until Date</span>
+                        </label>
+                        <label class="radio-option small">
+                            <input type="radio" name="lockType" value="blocks" onchange="toggleLockTypeInput()">
+                            <span class="radio-custom"></span>
+                            <span>Lock until Block Height</span>
+                        </label>
+                    </div>
+                    <div id="dateLockInput" class="lock-input">
+                        <label>Unlock Date & Time (UTC)</label>
+                        <input type="datetime-local" id="unlockDate" min="">
+                    </div>
+                    <div id="blockLockInput" class="lock-input hidden">
+                        <label>Unlock at Block Height</label>
+                        <input type="number" id="unlockBlock" placeholder="e.g., 900000" min="1">
+                        <small>Current block: ~<span id="currentBlock">873000</span></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Level Info Box -->
+        <div id="securityInfo" class="info-box">
+            <strong>Standard Security:</strong> Preimage-based verification. Quantum-resistant for storage. 
+            Suitable for most use cases. Lowest transaction fees (~35 sats).
+        </div>
+        
+        <button id="createBtn" class="btn btn-primary btn-large" onclick="createVault()">
+            <span class="btn-icon">⚡</span>
+            <span>Generate Vault</span>
+        </button>
+        
+        <!-- Result -->
+        <div id="createResult" class="result hidden">
+            <!-- Vault ID -->
+            <div class="field">
+                <label>Vault ID</label>
+                <div class="value-box">
+                    <span id="vaultId" class="mono">...</span>
+                    <button class="copy-btn" onclick="copyToClipboard('vaultId')" title="Copy">📋</button>
+                </div>
+            </div>
+            
+            <!-- Script Hash -->
+            <div class="field">
+                <label>Script Hash <small>(for blockchain lookup)</small></label>
+                <div class="value-box">
+                    <span id="scriptHash" class="mono">...</span>
+                    <button class="copy-btn" onclick="copyToClipboard('scriptHash')" title="Copy">📋</button>
+                </div>
+            </div>
+            
+            <!-- Security Badge -->
+            <div class="security-badge">
+                <div class="badge-item">
+                    <span class="badge-label">Signature</span>
+                    <span class="badge-value" id="sigType">Winternitz OTS</span>
+                </div>
+                <div class="badge-item">
+                    <span class="badge-label">Key Entropy</span>
+                    <span class="badge-value" id="keyEntropy">1024 bytes</span>
+                </div>
+                <div class="badge-item safe">
+                    <span class="badge-label">Quantum Safe</span>
+                    <span class="badge-value">✓ Yes</span>
+                </div>
+                <div class="badge-item" id="frontRunBadge">
+                    <span class="badge-label">Front-Run</span>
+                    <span class="badge-value" id="frontRunStatus">Standard</span>
+                </div>
+            </div>
+            
+            <!-- Locking Script -->
+            <div class="field">
+                <div onclick="toggleDetails('scriptDetails')" class="clickable keys-toggle">
+                    🔐 Locking Script 
+                    <span class="toggle-icon" id="scriptDetailsIcon">▼</span>
+                </div>
+                <div id="scriptDetails" class="collapsible">
+                    <div class="detail-row">
+                        <span class="detail-label">ASM:</span>
+                        <code id="lockingScriptASM" class="code-block">...</code>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Hex:</span>
+                        <code id="lockingScript" class="code-block mono">...</code>
+                        <button class="copy-btn small" onclick="copyToClipboard('lockingScript')">📋 Copy</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MASTER SECRET -->
+            <div class="field secret-field">
+                <label class="label-critical">🔑 MASTER SECRET - SAVE THIS!</label>
+                <div class="secret-box">
+                    <textarea id="vaultSecret" readonly rows="4">...</textarea>
+                    <button class="copy-btn important" onclick="copyToClipboard('vaultSecret')">
+                        🔒 Copy Master Secret
+                    </button>
+                </div>
+                <div class="warning-box">
+                    <strong>⚠️ CRITICAL:</strong> This is the ONLY way to access your funds. 
+                    Store it securely offline. If lost, your funds are PERMANENTLY INACCESSIBLE.
+                </div>
+            </div>
+            
+            <!-- Continue to Funding Button -->
+            <div class="action-center">
+                <button class="btn btn-primary btn-large" onclick="showFundingSection()">
+                    <span class="btn-icon">💰</span>
+                    <span>Continue to Fund Vault</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fund Vault Section -->
+    <section class="card" id="fundSection" style="display: none;">
+        <h2>
+            <span class="section-icon green">💰</span>
+            Fund Your Quantum Vault
+        </h2>
+        <p class="section-desc">
+            Send BSV using the QR code below. Funds are automatically deposited into your quantum vault.
+        </p>
+        
+        <!-- Vault Info Display -->
+        <div class="vault-info-banner" id="fundingVaultInfo">
+            <div class="vault-info-item">
+                <span class="vault-info-label">Target Vault</span>
+                <span class="vault-info-value" id="fundingVaultId">Not set</span>
+            </div>
+        </div>
+        
+        <!-- Step 1: Load Vault -->
+        <div class="funding-step" id="fundStep1">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <span class="step-title">Load Your Vault</span>
+            </div>
+            <div class="field">
+                <label>Vault Master Secret</label>
+                <textarea id="fundingSecretInput" placeholder="Paste your vault master secret here..." rows="3"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="loadVaultForFunding()">
+                <span class="btn-icon">🔓</span>
+                <span>Load Vault</span>
+            </button>
+        </div>
+        
+        <!-- Step 2: Generate Funding Address -->
+        <div class="funding-step hidden" id="fundStep2">
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <span class="step-title">Send BSV to This Address</span>
+            </div>
+            
+            <div class="qr-container">
+                <div class="qr-box" id="fundingQR"></div>
+                <div class="qr-label">Scan with any BSV wallet</div>
+            </div>
+            
+            <div class="funding-address-box">
+                <label>Funding Address</label>
+                <div class="address-display">
+                    <span id="fundingAddressDisplay" class="mono">...</span>
+                    <button class="copy-btn" onclick="copyToClipboard('fundingAddressDisplay')">📋</button>
+                </div>
+                <div class="address-note">
+                    ✓ Standard BSV address - works with any wallet<br>
+                    ✓ Minimum: 2,000 satoshis (for fees)
+                </div>
+            </div>
+            
+            <!-- Keys Section - Collapsible -->
+            <div class="keys-section">
+                <div onclick="toggleDetails('fundingKeys')" class="clickable keys-toggle">
+                    🔐 Funding Address Keys <small>(tap to reveal)</small>
+                    <span class="toggle-icon" id="fundingKeysIcon">▼</span>
+                </div>
+                <div id="fundingKeys" class="collapsible keys-content">
+                    <div class="key-warning">
+                        ⚠️ These keys control the temporary funding address. Save if needed.
+                    </div>
+                    
+                    <div class="key-field">
+                        <label>Private Key (WIF)</label>
+                        <div class="key-display">
+                            <input type="password" id="fundingWIF" readonly class="mono" value="...">
+                            <button class="copy-btn" onclick="copyToClipboard('fundingWIF')">📋</button>
+                            <button class="copy-btn" onclick="toggleKeyVisibility('fundingWIF')">👁️</button>
+                        </div>
+                    </div>
+                    
+                    <div class="key-field">
+                        <label>Private Key (Hex)</label>
+                        <div class="key-display">
+                            <input type="password" id="fundingPrivKeyHex" readonly class="mono" value="...">
+                            <button class="copy-btn" onclick="copyToClipboard('fundingPrivKeyHex')">📋</button>
+                            <button class="copy-btn" onclick="toggleKeyVisibility('fundingPrivKeyHex')">👁️</button>
+                        </div>
+                    </div>
+                    
+                    <div class="key-field">
+                        <label>Public Key (Hex)</label>
+                        <div class="key-display">
+                            <input type="text" id="fundingPubKeyHex" readonly class="mono" value="...">
+                            <button class="copy-btn" onclick="copyToClipboard('fundingPubKeyHex')">📋</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="funding-balance-box" id="fundingBalanceBox">
+                <div class="balance-header">
+                    <span>💳 Funding Address Balance</span>
+                    <button class="btn btn-small" onclick="refreshFundingBalance()">🔄 Refresh</button>
+                </div>
+                <div class="balance-content" id="fundingBalanceContent">
+                    <div class="balance-zero">Waiting for deposit...</div>
+                </div>
+            </div>
+            
+            <!-- Send Elsewhere Option -->
+            <div class="send-elsewhere-section hidden" id="sendElsewhereSection">
+                <div class="section-divider"><span>OR</span></div>
+                <div class="send-elsewhere-box">
+                    <h4>📤 Changed Your Mind?</h4>
+                    <p>Send funds to a different address instead.</p>
+                    <div class="field">
+                        <label>Destination Address</label>
+                        <input type="text" id="sendElsewhereAddress" placeholder="BSV address starting with 1...">
+                    </div>
+                    <button class="btn btn-secondary" onclick="sendElsewhere()">
+                        <span class="btn-icon">↗️</span>
+                        <span>Send Elsewhere</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 3: Deposit to Vault -->
+        <div class="funding-step hidden" id="fundStep3">
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <span class="step-title">Deposit to Quantum Vault</span>
+            </div>
+            
+            <div class="deposit-ready-box">
+                <div class="deposit-icon">✅</div>
+                <div class="deposit-message">
+                    Funds detected! Click below to deposit into your quantum vault.
+                </div>
+                <div class="deposit-amount" id="depositAmountDisplay">0.00000000 BSV</div>
+            </div>
+            
+            <button class="btn btn-primary btn-large" id="depositBtn" onclick="depositToVault()">
+                <span class="btn-icon">🚀</span>
+                <span>Deposit to Quantum Vault</span>
+            </button>
+            
+            <div class="deposit-note">
+                Funds will be protected by Winternitz signatures with covenant binding.
+            </div>
+        </div>
+        
+        <!-- Deposit Result -->
+        <div id="depositResult" class="status-box"></div>
+    </section>
+
+    <!-- Access Vault Section -->
+    <section class="card" id="accessSection">
+        <h2>
+            <span class="section-icon blue">◈</span>
+            Access Vault
+        </h2>
+        
+        <div class="field">
+            <label>Master Secret</label>
+            <textarea id="inputSecret" placeholder="Paste your vault master secret here..." rows="3"></textarea>
+        </div>
+        
+        <div class="field">
+            <label>Destination Address</label>
+            <input type="text" id="inputAddress" placeholder="BSV P2PKH address (starting with 1)">
+            <span class="help-text">Standard BSV addresses starting with "1" only</span>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn btn-secondary" onclick="checkBalance()">
+                <span class="btn-icon">📊</span>
+                <span class="btn-text">Check Balance</span>
+            </button>
+            <button class="btn btn-primary" onclick="sweepVault()">
+                <span class="btn-icon">💸</span>
+                <span class="btn-text">Sweep Funds</span>
+            </button>
+            <button class="btn btn-secondary" onclick="quickFund()">
+                <span class="btn-icon">💰</span>
+                <span class="btn-text">Fund Vault</span>
+            </button>
+        </div>
+        
+        <div id="accessStatus" class="status-box"></div>
+    </section>
+
+    <!-- Technical Details -->
+    <section class="card info-card">
+        <h2>
+            <span class="section-icon purple">🔬</span>
+            Technical Specifications
+        </h2>
+        
+        <div class="tech-grid">
+            <div class="tech-item">
+                <span class="tech-label">Signature Scheme</span>
+                <span class="tech-value">WOTS-16 (Winternitz)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Chunks</span>
+                <span class="tech-value">68 (64 msg + 4 checksum)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Key Entropy</span>
+                <span class="tech-value">2,176 bytes (Ultimate)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Hash Algorithm</span>
+                <span class="tech-value mono">SHA256</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Covenant Binding</span>
+                <span class="tech-value">ECDSA + hashOutputs</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Network</span>
+                <span class="tech-value">BSV Mainnet</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Script Type</span>
+                <span class="tech-value">Bare Script (Genesis)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-label">Typical Tx Size</span>
+                <span class="tech-value">~8.5 KB (Ultimate)</span>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3>How It Works</h3>
+            <div class="how-it-works">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Key Generation</h4>
+                    <p>68 random 32-byte scalars are generated. Each is hashed iteratively to create public commitments.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Locking Script</h4>
+                    <p>All commitments are embedded in a Bitcoin script that verifies WOTS-16 signatures using OP_MOD/OP_DIV.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Covenant Binding</h4>
+                    <p>ECDSA signature binds the WOTS-16 sig to specific outputs, preventing front-running.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>Quantum-Safe Spend</h4>
+                    <p>Spending reveals hash preimages, not ECDSA private keys. Immune to quantum attacks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Comparison -->
+    <section class="card info-card">
+        <h2>
+            <span class="section-icon">⚖️</span>
+            Security Comparison
+        </h2>
+        
+        <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Standard ECDSA</th>
+                        <th>Simple Hash-Lock</th>
+                        <th>Quantum Vault</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Quantum Resistant Storage</td>
+                        <td class="bad">✗</td>
+                        <td class="good">✓</td>
+                        <td class="good">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Quantum Resistant Spend</td>
+                        <td class="bad">✗</td>
+                        <td class="bad">✗</td>
+                        <td class="good">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Front-Run Immunity</td>
+                        <td class="good">✓</td>
+                        <td class="bad">✗</td>
+                        <td class="good">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Key Entropy</td>
+                        <td>32 bytes</td>
+                        <td>32 bytes</td>
+                        <td class="good">2,176 bytes</td>
+                    </tr>
+                    <tr>
+                        <td>BSV Genesis Compatible</td>
+                        <td class="good">✓</td>
+                        <td class="bad">✗ (P2SH)</td>
+                        <td class="good">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Mainnet Proven</td>
+                        <td class="good">✓</td>
+                        <td>?</td>
+                        <td class="good">✓</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-brand">
+            <span class="footer-logo">🔐</span>
+            <span>BSV Quantum Vault</span>
+        </div>
+        <p class="footer-tagline">Built for the post-quantum future</p>
+        <div class="footer-links">
+            <a href="https://whatsonchain.com" target="_blank" rel="noopener">Explorer</a>
+            <span>•</span>
+            <a href="https://github.com/agreatopportunity/Quantum-Bitcoin-Vault" target="_blank" rel="noopener">GitHub</a>
+            <span>•</span>
+            <a href="javascript:void(0)" onclick="showSecurityInfo()">Security Info</a>
+        </div>
+        <p class="footer-disclaimer">
+            Open source software. Use at your own risk. Always backup your master secrets.
+        </p>
+    </footer>
+</div>
+
+<!-- Security Info Modal -->
+<div id="securityModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeSecurityModal()"></div>
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeSecurityModal()">×</button>
+        <h2>🛡️ Security Information</h2>
+        
+        <div class="security-section">
+            <h3>Quantum Resistance</h3>
+            <p>BSV Quantum Vault uses <strong>Winternitz One-Time Signatures (WOTS-16)</strong>, a hash-based 
+            signature scheme that is believed to be secure against both classical and quantum computers.</p>
+            <ul>
+                <li>Based on SHA-256 hash function security</li>
+                <li>No elliptic curve cryptography during spend</li>
+                <li>68-chunk signature with 4-bit nibbles (WOTS-16)</li>
+                <li>Includes checksum chunks for integrity</li>
+            </ul>
+        </div>
+        
+        <div class="security-section">
+            <h3>Front-Run Immunity</h3>
+            <p>The <strong>Ultimate</strong> security level uses an ECDSA covenant that binds the WOTS-16 
+            signature to specific transaction outputs.</p>
+            <ul>
+                <li>WOTS-16 signature signs <code>hashOutputs</code></li>
+                <li>ECDSA covenant verifies the binding on-chain</li>
+                <li>Attackers cannot redirect funds even with preimage</li>
+                <li>Proven working on BSV mainnet</li>
+            </ul>
+        </div>
+        
+        <div class="security-section">
+            <h3>Key Management</h3>
+            <ul>
+                <li><strong>Master Secret:</strong> Contains all private keys. NEVER share.</li>
+                <li><strong>Offline Storage:</strong> Store master secret offline in multiple locations.</li>
+                <li><strong>One-Time Use:</strong> WOTS signatures are one-time. Never reuse a vault.</li>
+                <li><strong>No Recovery:</strong> Lost secrets cannot be recovered. Funds are permanent.</li>
+            </ul>
+        </div>
+        
+        <div class="security-section">
+            <h3>Transaction Details</h3>
+            <ul>
+                <li><strong>Locking Script:</strong> ~5,700 bytes (Ultimate)</li>
+                <li><strong>Unlocking Script:</strong> ~2,700 bytes</li>
+                <li><strong>Total Tx Size:</strong> ~8,500 bytes</li>
+                <li><strong>Typical Fee:</strong> ~8,500 satoshis (1 sat/byte)</li>
+            </ul>
+        </div>
+        
+        <div class="security-section warning">
+            <h3>⚠️ Important Warnings</h3>
+            <ul>
+                <li>This is experimental software. Use with caution.</li>
+                <li>Large script sizes mean higher transaction fees.</li>
+                <li>Always test with small amounts first.</li>
+                <li>WOTS signatures can only be used ONCE per vault.</li>
+            </ul>
+        </div>
+        
+        <button class="btn btn-primary" onclick="closeSecurityModal()">Got It</button>
+    </div>
+</div>
+
+<!-- Notification Container -->
+<div id="notificationContainer"></div>
+
+<script src="app.js"></script>
+
+<script>
+// Security Info Modal Functions
+function showSecurityInfo() {
+    document.getElementById('securityModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSecurityModal() {
+    document.getElementById('securityModal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeSecurityModal();
+    }
+});
+</script>
+
+</body>
+</html>
